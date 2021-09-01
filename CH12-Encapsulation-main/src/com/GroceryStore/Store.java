@@ -48,6 +48,20 @@ public class Store {
         return output;
     }
 
+    public Product getProduct(String id) {
+        for (Product product : inventory) {
+            if (id.equals(product.getId())) {
+                return product;
+            }
+        }
+        return null;
+    }
+
+    public void purchase(Product product) {
+        balance += product.getPrice();
+        throwAway(product);
+    }
+
     public String getBalance() {return Formatter.getDisplayPrice(balance);}
 
     public String getName() {return name;}

@@ -25,6 +25,10 @@ public abstract class Product {
         return output;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public int getPrice() {
         return price;
     }
