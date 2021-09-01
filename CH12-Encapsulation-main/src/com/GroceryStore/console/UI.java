@@ -35,14 +35,14 @@ public class UI {
 
     }
 
-    //TODO make loop to keep running until exit is called, move getInt to displayOptions, move logic to return Int to
-    // this method
     public void start(Store store) {
         this.store = store;
         welcome(store.getName());
-        displayOptions("What do you want to do?", MENU);
-        int choice = getInt(1, 5, "Enter selection between 1 and 5:");
-        handleMenuSelection(choice);
+        while (true) {
+            displayOptions("What do you want to do?", MENU);
+            int choice = getInt(1, 5, "Enter selection between 1 and 5:");
+            handleMenuSelection(choice);
+        }
     }
 
     public static int getInt(int min, int max, String prompt) {

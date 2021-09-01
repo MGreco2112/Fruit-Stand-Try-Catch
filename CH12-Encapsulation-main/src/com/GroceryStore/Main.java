@@ -16,6 +16,9 @@ public class Main {
 ////        store.addToInventory(new Fruit("Dragon Fruit", 5_00, "p_003", "Pink dragon white", 3));
 //        System.out.println(store.getInventory());
 //        System.out.println(store.getBalance());
+        store.addToInventory("Soy boy", 7_99, "001", "soy boy milk", 2, 0);
+        store.addToInventory("Mega Mango", 6_99, "002", "Mango that's mega", 6, 1);
+
         ui1.start(store);
     }
 }
