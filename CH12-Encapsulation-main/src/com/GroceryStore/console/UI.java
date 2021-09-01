@@ -6,6 +6,7 @@ import com.GroceryStore.Products.Fruit;
 import com.GroceryStore.Products.Product;
 
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class UI {
@@ -116,6 +117,38 @@ public class UI {
 
     }
 
+    //TODO finish this
+    private Fruit getFruitDetails() {
+        String choice = "";
+        boolean isOrganic = false;
+        do {
+            isOrganic = false;
+            System.out.println("Is this fruit organic?\n(y)es\n(n)o");
+            choice = scanner.nextLine();
+
+            switch (choice.toLowerCase(Locale.ROOT)) {
+                case "y":
+                    isOrganic = true;
+                    System.out.println("This Fruit is Organic");
+                    break;
+                case "n":
+                    System.out.println("The Fruit is not Organic");
+                    break;
+                default:
+                    System.out.println("Invalid entry");
+            }
+        } while (!choice.equals("y") && !choice.equals("n"));
+
+        return new Fruit(
+                getString("FruitName: ", true),
+                getInt(1, Integer.MAX_VALUE,"Price: "),
+                getString("ID: ", true),
+                getString("Description: ", false),
+                getInt(1, 10, "Hardness from 1 to 10: "),
+                isOrganic
+        );
+    }
+
     private Product selectProduct(String prompt) {
         System.out.println(displayProducts());
         String choice = getString(prompt, false);
@@ -123,10 +156,6 @@ public class UI {
 
     }
 
-    //TODO finish this
-    private Fruit getFruitDetails() {
-        return null;
-    }
 
     private void throwAwayProduct() {
         Product prod = selectProduct("Which ID would you like to throw away?");
