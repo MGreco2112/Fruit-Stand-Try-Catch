@@ -32,7 +32,28 @@ public class UI {
 
     private final static String PRODUCT_PROMPT = "What kind of Product?";
 
+    private final static String[] PRODUCT_FIELDS = new String[] {
+            "Name:",
+            "Price:",
+            "ID:",
+            "Description"
+    };
 
+    private final static String[] DRINK_FIELDS = new String[] {
+            "Volume: ",
+            "Enter the index of the following\n" + Arrays.toString(Drink.UNITS)
+    };
+
+    private final static String[] FRUIT_FIELDS = new String[] {
+            "Is this fruit organic?\n(y)es\n(n)o",
+            "This Fruit is Organic",
+            "The Fruit is not Organic",
+            "Hardness from 1 to 10: "
+    };
+
+    private final static String TOSS_PROMPT = "Which ID would you like to throw away?";
+
+    private final static String SELL_PROMPT = "Enter the ID of the product to sell, press enter to cancel";
 
     private final static String[] ERROR_MESS = new String[] {"OK", "Invalid entry, try again", "Must enter something"
             , "Invalid selection provided", "Error, bad type", "404 - Product not Found"};
@@ -119,12 +140,12 @@ public class UI {
 
     private static Drink getDrinkDetails() {
         return new Drink(
-                getString("DrinkName: ", true),
-                getInt(1, Integer.MAX_VALUE, "Price"),
-                getString("ID: ", true),
-                getString("Description: ", false),
-                getInt(1, Integer.MAX_VALUE, "Volume: "),
-                getInt(0, Drink.UNITS.length,"Enter the index of the following\n" + Arrays.toString(Drink.UNITS))
+                getString(PRODUCT_FIELDS[0], true),
+                getInt(1, Integer.MAX_VALUE, PRODUCT_FIELDS[1]),
+                getString(PRODUCT_FIELDS[2], true),
+                getString(PRODUCT_FIELDS[3], false),
+                getInt(1, Integer.MAX_VALUE, DRINK_FIELDS[0]),
+                getInt(0, Drink.UNITS.length,DRINK_FIELDS[1])
         );
 
     }
@@ -134,16 +155,16 @@ public class UI {
         boolean isOrganic = false;
         do {
             isOrganic = false;
-            System.out.println("Is this fruit organic?\n(y)es\n(n)o");
+            System.out.println(FRUIT_FIELDS[0]);
             choice = scanner.nextLine();
 
             switch (choice.toLowerCase(Locale.ROOT)) {
                 case "y":
                     isOrganic = true;
-                    System.out.println("This Fruit is Organic");
+                    System.out.println(FRUIT_FIELDS[1]);
                     break;
                 case "n":
-                    System.out.println("The Fruit is not Organic");
+                    System.out.println(FRUIT_FIELDS[2]);
                     break;
                 default:
                     System.out.println(ERROR_MESS[1]);
@@ -151,11 +172,11 @@ public class UI {
         } while (!choice.equals("y") && !choice.equals("n"));
 
         return new Fruit(
-                getString("FruitName: ", true),
-                getInt(1, Integer.MAX_VALUE,"Price: "),
-                getString("ID: ", true),
-                getString("Description: ", false),
-                getInt(1, 10, "Hardness from 1 to 10: "),
+                getString(PRODUCT_FIELDS[0], true),
+                getInt(1, Integer.MAX_VALUE,PRODUCT_FIELDS[1]),
+                getString(PRODUCT_FIELDS[2], true),
+                getString(PRODUCT_FIELDS[3], false),
+                getInt(1, 10, FRUIT_FIELDS[3]),
                 isOrganic
         );
     }
@@ -169,7 +190,7 @@ public class UI {
 
 
     private void throwAwayProduct() {
-        Product prod = selectProduct("Which ID would you like to throw away?");
+        Product prod = selectProduct(TOSS_PROMPT);
 
         if (prod == null) {
             System.out.println(ERROR_MESS[5]);
@@ -185,7 +206,7 @@ public class UI {
 
 
     private void sellProduct() {
-        Product prod = selectProduct("Enter the ID of the product to sell, press enter to cancel");
+        Product prod = selectProduct(TOSS_PROMPT);
 
         if (prod == null) {
             System.out.println(ERROR_MESS[5]);
