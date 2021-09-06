@@ -24,8 +24,17 @@ public class UI {
             "2. Fruit"
     };
 
+    private final static String WELCOME = "Welcome to ";
+
+    private final static String MENU_PROMPT = "What do you want to do?";
+
+    private final static String ENTER_PROMPT = "Enter selection :";
+
+    private final static String[] ERROR_MESS = new String[] {"OK", "Invalid entry, try again", "Must enter something"
+            , "Invalid selection provided", "Error, bad type", "404 - Product not Found"};
+
     public static void welcome(String name) {
-        System.out.println("Welcome to " + name + "!");
+        System.out.println(WELCOME + name + "!");
     }
 
     public static void displayOptions(String prompt, String[] options) {
@@ -40,8 +49,8 @@ public class UI {
         this.store = store;
         welcome(store.getName());
         while (true) {
-            displayOptions("What do you want to do?", MENU);
-            int choice = getInt(1, 5, "Enter selection between 1 and 5:");
+            displayOptions(MENU_PROMPT, MENU);
+            int choice = getInt(1, 5, ENTER_PROMPT);
             handleMenuSelection(choice);
         }
     }
@@ -54,7 +63,7 @@ public class UI {
             try {
                 option = Integer.parseInt(input);
             } catch (Exception e) {
-                System.out.println("Invalid entry, try again");
+                System.out.println(ERROR_MESS[1]);
                 option = max - 1;
             }
         } while (option < min || option > max);
@@ -70,7 +79,7 @@ public class UI {
             input = scanner.nextLine();
 
             if (isRequired && input.length() == 0) {
-                System.out.println("Must enter something");
+                System.out.println(ERROR_MESS[2]);
                 continue;
             }
             break;
@@ -85,7 +94,7 @@ public class UI {
             case 3 -> displayProducts();
             case 4 -> sellProduct();
             case 5 -> System.exit(0);
-            default -> System.out.println("Invalid selection provided");
+            default -> System.out.println(ERROR_MESS[3]);
         }
     }
 
@@ -95,10 +104,9 @@ public class UI {
         Product newProduct;
         switch (choice) {
             case 1 -> newProduct = getDrinkDetails();
-            //TODO finish getFruitDetails
             case 2 -> newProduct = getFruitDetails();
             default -> {
-                System.out.println("Error, bad type");
+                System.out.println(ERROR_MESS[4]);
                 newProduct = null;
             }
         }
@@ -135,7 +143,7 @@ public class UI {
                     System.out.println("The Fruit is not Organic");
                     break;
                 default:
-                    System.out.println("Invalid entry");
+                    System.out.println(ERROR_MESS[1]);
             }
         } while (!choice.equals("y") && !choice.equals("n"));
 
@@ -161,7 +169,7 @@ public class UI {
         Product prod = selectProduct("Which ID would you like to throw away?");
 
         if (prod == null) {
-            System.out.println("404 - Product not Found");
+            System.out.println(ERROR_MESS[5]);
             return;
         }
 
@@ -177,7 +185,7 @@ public class UI {
         Product prod = selectProduct("Enter the ID of the product to sell, press enter to cancel");
 
         if (prod == null) {
-            System.out.println("404 - Product not Found");
+            System.out.println(ERROR_MESS[5]);
             return;
         }
         store.purchase(prod);
