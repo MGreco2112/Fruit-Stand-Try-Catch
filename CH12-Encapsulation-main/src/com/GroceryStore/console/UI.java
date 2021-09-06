@@ -182,7 +182,7 @@ public class UI {
     }
 
     private Product selectProduct(String prompt) {
-        System.out.println(displayProducts());
+        displayProducts();
         String choice = getString(prompt, false);
         return store.getProduct(choice);
 
@@ -200,13 +200,13 @@ public class UI {
         store.throwAway(prod);
     }
 
-    private String displayProducts() {
-        return store.getInventory();
+
+    private void displayProducts() {
+        System.out.println(store.getInventory());
     }
 
-
     private void sellProduct() {
-        Product prod = selectProduct(TOSS_PROMPT);
+        Product prod = selectProduct(SELL_PROMPT);
 
         if (prod == null) {
             System.out.println(ERROR_MESS[5]);
