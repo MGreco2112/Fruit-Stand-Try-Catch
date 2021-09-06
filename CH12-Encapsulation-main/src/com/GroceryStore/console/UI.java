@@ -30,6 +30,10 @@ public class UI {
 
     private final static String ENTER_PROMPT = "Enter selection :";
 
+    private final static String PRODUCT_PROMPT = "What kind of Product?";
+
+
+
     private final static String[] ERROR_MESS = new String[] {"OK", "Invalid entry, try again", "Must enter something"
             , "Invalid selection provided", "Error, bad type", "404 - Product not Found"};
 
@@ -99,8 +103,8 @@ public class UI {
     }
 
     private void addProduct() {
-        displayOptions("What kind of Product?", PRODUCT_TYPES);
-        int choice = getInt(1, PRODUCT_TYPES.length, "Enter a number:");
+        displayOptions(PRODUCT_PROMPT, PRODUCT_TYPES);
+        int choice = getInt(1, PRODUCT_TYPES.length, ENTER_PROMPT);
         Product newProduct;
         switch (choice) {
             case 1 -> newProduct = getDrinkDetails();
@@ -125,7 +129,6 @@ public class UI {
 
     }
 
-    //TODO finish this
     private Fruit getFruitDetails() {
         String choice = "";
         boolean isOrganic = false;
