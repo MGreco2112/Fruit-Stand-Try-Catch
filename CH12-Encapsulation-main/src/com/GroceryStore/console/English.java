@@ -13,7 +13,8 @@ public class English implements Language{
                 "2. throw away a product",
                 "3. list products available",
                 "4. sell a product",
-                "5. quit"
+                "5. quit",
+                "6. change language"
         };
     }
 
@@ -37,7 +38,7 @@ public class English implements Language{
 
     @Override
     public String ENTER_PROMPT() {
-        return "Enter selection :";
+        return "Enter selection: ";
     }
 
     @Override

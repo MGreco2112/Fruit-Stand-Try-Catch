@@ -11,61 +11,22 @@ import java.util.Scanner;
 public class EnglishUI{
     private Store store;
     private final static Scanner scanner = new Scanner(System.in);
-    private final Language lang = new English();
-//    private final static String[] MENU = new String[] {
-//            "1. add product to inventory",
-//            "2. throw away a product",
-//            "3. list products available",
-//            "4. sell a product",
-//            "5. quit"
-//    };
-//    private final static String[] PRODUCT_TYPES = new String[] {
-//            "1. Drink",
-//            "2. Fruit"
-//    };
-//
-//    private final static String WELCOME = "Welcome to ";
-//
-//    private final static String MENU_PROMPT = "What do you want to do?";
-//
-//    private final static String ENTER_PROMPT = "Enter selection :";
-//
-//    private final static String PRODUCT_PROMPT = "What kind of Product?";
-//
-//    private final static String[] PRODUCT_FIELDS = new String[] {
-//            "Name:",
-//            "Price:",
-//            "ID:",
-//            "Description"
-//    };
-//
-//    private final static String[] DRINK_FIELDS = new String[] {
-//            "Volume: ",
-//            "Enter the index of the following\n" + Arrays.toString(Drink.UNITS)
-//    };
-//
-//    private final static String[] FRUIT_FIELDS = new String[] {
-//            "Is this fruit organic?\n(y)es\n(n)o",
-//            "This Fruit is Organic",
-//            "The Fruit is not Organic",
-//            "Hardness from 1 to 10: "
-//    };
-//
-//    private final static String TOSS_PROMPT = "Which ID would you like to throw away?";
-//
-//    private final static String SELL_PROMPT = "Enter the ID of the product to sell, press enter to cancel";
-//
-//    private final static String[] ERROR_MESS = new String[] {
-//            "OK",
-//            "Invalid entry, try again",
-//            "Must enter something",
-//            "Invalid selection provided",
-//            "Error, bad type",
-//            "404 - Product not Found"
-//    };
+    private Language lang;
 
     public EnglishUI(Store store) {
         this.store = store;
+        setLang();
+    }
+
+    private void setLang() {
+        int choice = getInt(1, 2, "Select a Language:\n" +
+                "1) English\n2) Español");
+
+        switch (choice) {
+            case 1 -> this.lang = new English();
+            case 2 -> this.lang = new Spanish();
+            default -> System.out.println("Invalid selection");
+        }
     }
 
 
@@ -85,7 +46,7 @@ public class EnglishUI{
         welcome(store.getName());
         while (true) {
             displayOptions(lang.MENU_PROMPT(), lang.MENU());
-            int choice = getInt(1, 5, lang.ENTER_PROMPT());
+            int choice = getInt(1, 6, lang.ENTER_PROMPT());
             handleMenuSelection(choice);
         }
     }
@@ -129,6 +90,7 @@ public class EnglishUI{
             case 3 -> displayProducts();
             case 4 -> sellProduct();
             case 5 -> System.exit(0);
+            case 6 -> setLang();
             default -> System.out.println(lang.ERROR_MESS()[3]);
         }
     }
