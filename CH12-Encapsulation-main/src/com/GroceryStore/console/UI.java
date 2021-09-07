@@ -1,68 +1,35 @@
 package com.GroceryStore.console;
 
-import com.GroceryStore.*;
 import com.GroceryStore.Products.Drink;
 import com.GroceryStore.Products.Fruit;
 import com.GroceryStore.Products.Product;
+import com.GroceryStore.Store;
 
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class UI {
-    private Store store;
-    private static Scanner scanner = new Scanner(System.in);
-    private final static String[] MENU = new String[] {
-            "1. add product to inventory",
-            "2. throw away a product",
-            "3. list products available",
-            "4. sell a product",
-            "5. quit"
-    };
-    private final static String[] PRODUCT_TYPES = new String[] {
-            "1. Drink",
-            "2. Fruit"
-    };
+public interface UI {
+    Store store= new Store("");
+    Scanner scanner = new Scanner(System.in);
+    String[] MENU =  new String[0];
+    String[] PRODUCT_TYPES =  new String[0];
+    String WELCOME =  "";
+    String MENU_PROMPT = "";
+    String ENTER_PROMPT = "";
+    String PRODUCT_PROMPT = "";
+    String[] PRODUCT_FIELDS =  new String[0];
+    String[] DRINK_FIELDS =  new String[0];
+    String[] FRUIT_FIELDS =  new String[0];
+    String TOSS_PROMPT = "";
+    String SELL_PROMPT =  "";
+    String[] ERROR_MESS =  new String[0];
 
-    private final static String WELCOME = "Welcome to ";
 
-    private final static String MENU_PROMPT = "What do you want to do?";
-
-    private final static String ENTER_PROMPT = "Enter selection :";
-
-    private final static String PRODUCT_PROMPT = "What kind of Product?";
-
-    private final static String[] PRODUCT_FIELDS = new String[] {
-            "Name:",
-            "Price:",
-            "ID:",
-            "Description"
-    };
-
-    private final static String[] DRINK_FIELDS = new String[] {
-            "Volume: ",
-            "Enter the index of the following\n" + Arrays.toString(Drink.UNITS)
-    };
-
-    private final static String[] FRUIT_FIELDS = new String[] {
-            "Is this fruit organic?\n(y)es\n(n)o",
-            "This Fruit is Organic",
-            "The Fruit is not Organic",
-            "Hardness from 1 to 10: "
-    };
-
-    private final static String TOSS_PROMPT = "Which ID would you like to throw away?";
-
-    private final static String SELL_PROMPT = "Enter the ID of the product to sell, press enter to cancel";
-
-    private final static String[] ERROR_MESS = new String[] {"OK", "Invalid entry, try again", "Must enter something"
-            , "Invalid selection provided", "Error, bad type", "404 - Product not Found"};
-
-    public static void welcome(String name) {
+    static void welcome(String name) {
         System.out.println(WELCOME + name + "!");
     }
 
-    public static void displayOptions(String prompt, String[] options) {
+    static void displayOptions(String prompt, String[] options) {
         System.out.println(prompt);
         for (String option : options) {
             System.out.println(option);
@@ -70,8 +37,9 @@ public class UI {
 
     }
 
-    public void start(Store store) {
-        this.store = store;
+
+
+    default void start(Store store) {
         welcome(store.getName());
         while (true) {
             displayOptions(MENU_PROMPT, MENU);
@@ -80,7 +48,7 @@ public class UI {
         }
     }
 
-    public static int getInt(int min, int max, String prompt) {
+    static int getInt(int min, int max, String prompt) {
         int option;
         do {
             System.out.println(prompt);
@@ -95,7 +63,7 @@ public class UI {
         return option;
     }
 
-    public static String getString(String prompt, boolean isRequired) {
+    static String getString(String prompt, boolean isRequired) {
 
         String input;
 
@@ -112,7 +80,7 @@ public class UI {
         return input;
     }
 
-    public void handleMenuSelection(int choice) {
+    default void handleMenuSelection(int choice) {
         switch (choice) {
             case 1 -> addProduct();
             case 2 -> throwAwayProduct();
@@ -123,7 +91,7 @@ public class UI {
         }
     }
 
-    private void addProduct() {
+    default void addProduct() {
         displayOptions(PRODUCT_PROMPT, PRODUCT_TYPES);
         int choice = getInt(1, PRODUCT_TYPES.length, ENTER_PROMPT);
         Product newProduct;
@@ -138,7 +106,7 @@ public class UI {
         store.addToInventory(newProduct);
     }
 
-    private static Drink getDrinkDetails() {
+    static Drink getDrinkDetails() {
         return new Drink(
                 getString(PRODUCT_FIELDS[0], true),
                 getInt(1, Integer.MAX_VALUE, PRODUCT_FIELDS[1]),
@@ -150,7 +118,7 @@ public class UI {
 
     }
 
-    private Fruit getFruitDetails() {
+    default Fruit getFruitDetails() {
         String choice = "";
         boolean isOrganic = false;
         do {
@@ -181,7 +149,7 @@ public class UI {
         );
     }
 
-    private Product selectProduct(String prompt) {
+    default Product selectProduct(String prompt) {
         displayProducts();
         String choice = getString(prompt, false);
         return store.getProduct(choice);
@@ -189,7 +157,7 @@ public class UI {
     }
 
 
-    private void throwAwayProduct() {
+    default void throwAwayProduct() {
         Product prod = selectProduct(TOSS_PROMPT);
 
         if (prod == null) {
@@ -201,11 +169,11 @@ public class UI {
     }
 
 
-    private void displayProducts() {
+    default void displayProducts() {
         System.out.println(store.getInventory());
     }
 
-    private void sellProduct() {
+    default void sellProduct() {
         Product prod = selectProduct(SELL_PROMPT);
 
         if (prod == null) {
@@ -214,5 +182,6 @@ public class UI {
         }
         store.purchase(prod);
     }
+
 
 }
