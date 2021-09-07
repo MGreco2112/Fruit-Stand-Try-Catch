@@ -18,6 +18,6 @@ public class Main {
         store.addToInventory("Soy boy", 7_99, "001", "soy boy milk", 2, 0);
         store.addToInventory("Mega Mango", 6_99, "002", "Mango that's mega", 6, 1);
 
-        ui.start(store);
+        ui.start();
     }
 }
