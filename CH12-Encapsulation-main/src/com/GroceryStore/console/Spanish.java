@@ -75,6 +75,7 @@ public class Spanish implements Language{
 
     @Override
     public String TOSS_PROMPT() {
+
         return "¿Qué identificación te gustaría tirar?";
     }
 
